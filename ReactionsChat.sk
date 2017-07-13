@@ -1,0 +1,61 @@
+# ReactionsChat by Esej
+
+# script made by esej
+#on script load:
+	#if folder "plugins/ReactionsChat" doesn't exists:
+		#set {_x} to "ReactionsChat"
+		#create folder "plugins/%{_t}%"
+		#create file "plugins/ReactionsChat/config.esej"
+		#wf "// Autorem skryptu jest esej." to "plugins/ReactionsChat/config.esej"
+		#wf "tooltip: '&6Zareaguj'" to "plugins/ReactionsChat/config.esej"
+		#wf "tag: '&8[» &9ReactionsChat &8«]'" to "plugins/ReactionsChat/config.esej"
+		#send "[ReactionsChat] Created new config and new folder for script." to the console
+	#set {tooltip} to single value "tooltip" get of "plugins/ReactionsChat/config.esej"
+	#set {tag} to single value "tag" get of "plugins/ReactionsChat/config.esej"
+on chat:
+	cancel event
+	add 1 to {id::chat}
+	set {message::%{id::chat}%} to message
+	set {id::chat::messageowner::%{id::chat}%} to the player
+	send json of "&8» &3%player% &7- &9%message%" tooltip "&6Zareaguj" run "/react %{id::chat}%" to player
+	stop
+
+command /esej:react <integer>:
+	description: Skrypt dodajacy reakcje do wiadomosci na chacie.
+	executable by: player
+	aliases: /react
+	trigger:
+		if integer-argument is set:
+			if integer-argument <= {id::chat}:
+				if {react::%player%::%integer-argument%} isn't set:
+					open chest with 1 rows named "§8[» §9ReactionsChat §8«]" to the player
+					format slot 0 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 1 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 2 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 4 of player with 1 of green stained glass pane named "&8» &aLubie to! &8«" to close then run [make player execute command "esej:like %argument 1%"]->[make player execute command "/react %argument 1%"]
+					format slot 3 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 5 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 6 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 7 of player with 1 of black stained glass pane named " " to be unstealable 
+					format slot 8 of player with 1 of orange stained glass pane named "&8» &6Ilosc &9polubien &8«" with lore "&8» &9%{id::like::%argument%}%" to be unstealable
+				else:
+					open chest with 1 rows named "§8[» §9ReactionsChat §8«]" to the player
+					format slot 0 of player with 1 of orange stained glass pane named " " to be unstealable
+					format slot 1 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 2 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 3 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 4 of player with 1 of red stained glass pane named "&8» &4Polubiles juz ta wiadomosc" with lore "&8» &cNiestety nie ma mozliwosci polubienia wiecej niz 1 raz" to be unstealable
+					format slot 5 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 6 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 7 of player with 1 of black stained glass pane named " " to be unstealable
+					format slot 8 of player with 1 of orange stained glass pane named "&8» &6Ilosc &9polubien &8«" with lore "&8» &9%{id::like::%argument%}%" to be unstealable
+			else:
+				send "&8» &c&lBlad: &7&lNie ma takiego &4&lID" to the player
+		else:
+			send "&8» &c&lBlad: &&7&lNie ustaliles &4&lID" to the player
+command /esej:like [<integer>]:
+	trigger:
+		if {react::%player%::%integer-argument%} isn't set:
+			add 1 to {id::like::%integer-argument%}
+			set {react::%player%::%integer-argument%} to true
+			send "&8» &6Dales &9like &r:&6D" to player
