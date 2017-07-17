@@ -1,6 +1,6 @@
-# ReactionsChat by Esej
-
-# script made by esej
+# ReactionsChat
+# made by esej
+# in version 1.0.1
 #on script load:
 	#if folder "plugins/ReactionsChat" doesn't exists:
 		#set {_x} to "ReactionsChat"
@@ -12,12 +12,16 @@
 		#send "[ReactionsChat] Created new config and new folder for script." to the console
 	#set {tooltip} to single value "tooltip" get of "plugins/ReactionsChat/config.esej"
 	#set {tag} to single value "tag" get of "plugins/ReactionsChat/config.esej"
+options:
+
+	# Format wiadomosci na chacie.
+	temporarily-format: &8» &3%player% &7- &9%message%
 on chat:
 	cancel event
 	add 1 to {id::chat}
 	set {message::%{id::chat}%} to message
 	set {id::chat::messageowner::%{id::chat}%} to the player
-	send json of "&8» &3%player% &7- &9%message%" tooltip "&6Zareaguj" run "/react %{id::chat}%" to player
+	send json of "{@temporarily-format}" tooltip "&6Zareaguj" run "/react %{id::chat}%" to player
 	stop
 
 command /esej:react <integer>:
