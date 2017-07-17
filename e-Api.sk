@@ -8,4 +8,10 @@ command /esej:e-api [<text>] [<text>] [<player>]:
 	trigger:
 		argument 1 is "guildtagset":
 			set {guild::tag::%player-argument%} to argument 2
-			send "&8» [ &3e&7-&6API
+			send "&8» [ &3e&7-&6API &8] &6Ustawiono tag dla gracza." to the player
+			stop
+		argument 1 is "guildtagremove":
+			clear {guild::tag::%player-argument%}
+			send "&8» &cUsunieto tag gildii" to the player
+		argument 1 is "author" or "autor":
+			send "Autorem api oraz ReactionsChat jest Esej"
