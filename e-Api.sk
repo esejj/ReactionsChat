@@ -1,0 +1,11 @@
+# Api for ReactionsChat
+
+# API - GUILD TAGS FIX
+
+command /esej:e-api [<text>] [<text>] [<player>]:
+	description: fixes for reactionschat
+	aliases: /e-api
+	trigger:
+		argument 1 is "guildtagset":
+			set {guild::tag::%player-argument%} to argument 2
+			send "&8» [ &3e&7-&6API
